@@ -1,7 +1,6 @@
 package com.source.game.main;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 
 /**
  * Created by Quinn on 11/12/2014.
@@ -9,15 +8,15 @@ import java.awt.image.BufferedImage;
 public class Player {
     private double x;
     private double y;
-    private BufferedImage player;
     private double velX = 0;
     private double velY = 0;
 
-    public Player (double x, double y, Game game){
+    private Textures tex;
+
+    public Player (double x, double y, Textures tex){
         this.x = x;
         this.y = y;
-        SpriteSheet ss = new SpriteSheet(game.getSpriteSheet());
-        player = ss.grabImage(1, 1, 32, 32);
+        this.tex = tex;
     }
 
     /**
@@ -46,7 +45,7 @@ public class Player {
      * Used to render the player image.
      */
     public void render(Graphics g) {
-        g.drawImage(player, (int)x, (int)y, null);
+        g.drawImage(tex.player, (int)x, (int)y, null);
     }
 
     /**

@@ -26,18 +26,22 @@ public class Game extends Canvas implements Runnable {
     private BufferedImage background = null;
 
     private Player p;
+    private Controller c;
+    private Textures tex;
 
     public void init() {
         requestFocus(); //Brings focus to the screen, so no clicking.
         BufferedImageLoader loader = new BufferedImageLoader();
         try{
             spriteSheet = loader.loadImage("/Sprite_sheet_first_zelda.png");
-            background = loader.loadImage("/Background.jpg");
+            background = loader.loadImage("/test.png");
         }catch (IOException e) {
             e.printStackTrace();
         }
         addKeyListener(new KeyInput(this));
-        p = new Player (200, 200, this);
+        tex = new Textures(this);
+        p = new Player (200, 200, tex);
+        c = new Controller(this, tex);
     }
 
     //Starts the thread.
@@ -102,6 +106,7 @@ public class Game extends Canvas implements Runnable {
     //Updates the game.
     private void tick(){
         p.tick();
+        c.tick();
     }
 
     //Updates the renders.
@@ -119,6 +124,7 @@ public class Game extends Canvas implements Runnable {
         /////////////////SAVED FOR GRAPHICS////////////////////////////////
         g.drawImage(image, 0, 0, getWidth(), getHeight(), this);
         g.drawImage(background,0, 0, null);
+        c.render(g);
         p.render(g);
         //////////////////////////////////////////////////////////////////
         /////////////////////////////////////////////////////////////////
@@ -130,13 +136,13 @@ public class Game extends Canvas implements Runnable {
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
 
-        if (key == KeyEvent.VK_D) {
+        if (key == KeyEvent.VK_RIGHT) {
             p.setVelX(5);
-        }else if (key == KeyEvent.VK_A){
+        }else if (key == KeyEvent.VK_LEFT){
             p.setVelX(-5);
-        }else if (key == KeyEvent.VK_S){
+        }else if (key == KeyEvent.VK_DOWN){
             p.setVelY(5);
-        }else if(key == KeyEvent.VK_W){
+        }else if(key == KeyEvent.VK_UP){
             p.setVelY(-5);
         }
     }
